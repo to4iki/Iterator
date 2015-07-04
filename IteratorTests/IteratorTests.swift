@@ -22,6 +22,22 @@ class IteratorTests: XCTestCase {
         super.tearDown()
     }
     
+    func testHasNext() {
+        it.next()
+        it.next()
+        XCTAssertTrue(it.hasNext)
+        it.next()
+        XCTAssertFalse(it.hasNext)
+    }
+    
+    func testIsEmpty() {
+        it.next()
+        it.next()
+        XCTAssertFalse(it.isEmpty)
+        it.next()
+        XCTAssertTrue(it.isEmpty)
+    }
+    
     func testSize() {
         XCTAssert(it.size == 3)
         XCTAssert(it.size == 0)
@@ -83,13 +99,13 @@ class IteratorTests: XCTestCase {
     
     func testForAll() {
         let r = it.forall { $0 % 2 == 0 }
-        XCTAssertEqual(r, false)
+        XCTAssertFalse(r)
         XCTAssert(it.size == 0)
     }
     
     func testExists() {
         let r = it.exists { $0 % 2 == 0 }
-        XCTAssertEqual(r, true)
+        XCTAssertTrue(r)
         XCTAssert(it.size == 0)
     }
     

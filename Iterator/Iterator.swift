@@ -7,8 +7,10 @@
 //
 
 public protocol Iteratable {
+    
     typealias Element
     
+    var hasNext: Bool { get }
     func next() -> Element?
 }
 
@@ -18,7 +20,29 @@ public protocol Iteratable {
 public class Iterator<T: SequenceType>: Iteratable {
     
     private let sequence: T
-    private var generate: T.Generator
+    private lazy var generate: T.Generator = self.sequence.generate()
+    private lazy var index: Int = 0
+    
+    public init(_ sequence: T) {
+        self.sequence = sequence
+    }
+    
+    /// MARK: protocol
+    
+    public var hasNext: Bool {
+        return index < toArray().count
+    }
+    
+    public func next() -> T.Generator.Element? {
+        index++
+        return generate.next()
+    }
+    
+    /// MARK: size
+    
+    public var isEmpty: Bool {
+        return !hasNext
+    }
     
     public var size: Int {
         var i = 0
@@ -26,17 +50,6 @@ public class Iterator<T: SequenceType>: Iteratable {
             i++
         }
         return i
-    }
-    
-    public init(_ sequence: T) {
-        self.sequence = sequence
-        self.generate = sequence.generate()
-    }
-    
-    /// MARK: protocol
-    
-    public func next() -> T.Generator.Element? {
-        return generate.next()
     }
     
     /// MARK: other iterator
@@ -66,10 +79,8 @@ public class Iterator<T: SequenceType>: Iteratable {
     }
     
     public func eachWithIndex(block: (T.Generator.Element, Int) -> Void) {
-        var i = 0
         while let next = next() {
-            i++
-            block(next, i)
+            block(next, index)
         }
     }
     
