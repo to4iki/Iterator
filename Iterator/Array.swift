@@ -7,6 +7,7 @@
 //
 
 internal extension Array {
+    
     func each(block: T -> Void) {
         for item in self {
             block(item)

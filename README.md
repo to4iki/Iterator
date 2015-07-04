@@ -3,7 +3,7 @@ Iterator
 
 [![License][license-image]][license-url]
 
-Data structures that allow to iterate over a sequence of elements.
+Mutable data structures that allow to iterate over a sequence of elements.
 
 ## Description
 
@@ -15,7 +15,7 @@ public protocol Iteratable {
     typealias Element
 
     var hasNext: Bool { get }
-    func next() -> Element?
+    mutating func next() -> Element?
 }
 ```
 

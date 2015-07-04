@@ -38,9 +38,9 @@ class IteratorTests: XCTestCase {
         XCTAssertTrue(it.isEmpty)
     }
     
-    func testSize() {
-        XCTAssert(it.size == 3)
-        XCTAssert(it.size == 0)
+    func testsize() {
+        XCTAssert(it.size() == 3)
+        XCTAssert(it.size() == 0)
     }
     
     func testReverse() {
@@ -57,7 +57,7 @@ class IteratorTests: XCTestCase {
         var r = 0
         it.each { r += $0 }
         XCTAssert(r == 6)
-        XCTAssert(it.size == 0)
+        XCTAssert(it.size() == 0)
     }
     
     func testEachWithIndex() {
@@ -68,13 +68,13 @@ class IteratorTests: XCTestCase {
         }
         XCTAssert(r1 == 6)
         XCTAssert(r2 == -6)
-        XCTAssert(it.size == 0)
+        XCTAssert(it.size() == 0)
     }
     
     func testMap() {
         let r = it.map { $0 * 2 }
         XCTAssertEqual(r.toArray(), [2,4,6])
-        XCTAssert(it.size == 0)
+        XCTAssert(it.size() == 0)
     }
     
     func testFlatMap() {
@@ -82,37 +82,67 @@ class IteratorTests: XCTestCase {
             [Int](count: $0, repeatedValue: $0)
         }
         XCTAssertEqual(r.toArray(), [1,2,2,3,3,3])
-        XCTAssert(it.size == 0)
+        XCTAssert(it.size() == 0)
     }
     
     func testFind() {
         let r = it.find { $0 % 2 == 0 }
         XCTAssertEqual(r ?? 0, 2)
-        XCTAssert(it.size == 1)
+        XCTAssert(it.size() == 1)
+    }
+    
+    func testTake() {
+        var r = it.take(2)
+        XCTAssertEqual(r.toArray(), [1,2])
+        XCTAssert(r.size() == 2)
+        XCTAssert(it.size() == 3)
+    }
+    
+    func testDrop() {
+        var r = it.drop(2)
+        XCTAssertEqual(r.toArray(), [3])
+        XCTAssert(r.size() == 1)
+        XCTAssert(it.size() == 3)
+    }
+    
+    func testTakeWhile() {
+        var it = Iterator([1,2,3,4,5])
+        var r = it.takeWhile { $0 % 2 == 0 }
+        XCTAssertEqual(r.toArray(), [2,4])
+        XCTAssert(r.size() == 2)
+        XCTAssert(it.size() == 5)
+    }
+    
+    func testDropWhile() {
+        var it = Iterator([1,2,3,4,5])
+        var r = it.dropWhile { $0 % 2 == 0 }
+        XCTAssertEqual(r.toArray(), [1,3,5])
+        XCTAssert(r.size() == 3)
+        XCTAssert(it.size() == 5)
     }
     
     func testFilter() {
         let r = it.filter { $0 % 2 == 0 }
         XCTAssertEqual(r.toArray(), [2])
-        XCTAssert(it.size == 0)
+        XCTAssert(it.size() == 3)
     }
     
     func testForAll() {
         let r = it.forall { $0 % 2 == 0 }
         XCTAssertFalse(r)
-        XCTAssert(it.size == 0)
+        XCTAssert(it.size() == 0)
     }
     
     func testExists() {
         let r = it.exists { $0 % 2 == 0 }
         XCTAssertTrue(r)
-        XCTAssert(it.size == 0)
+        XCTAssert(it.size() == 0)
     }
     
     func testCount() {
-        let it = Iterator([1,2,3,4,5])
+        var it = Iterator([1,2,3,4,5])
         let r = it.count { $0 % 2 == 0 }
         XCTAssertEqual(r, 2)
-        XCTAssert(it.size == 0)
+        XCTAssert(it.size() == 0)
     }
 }

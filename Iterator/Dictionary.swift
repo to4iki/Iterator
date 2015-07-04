@@ -7,6 +7,7 @@
 //
 
 extension Dictionary {
+    
     func map<T>(transform: (Key, Value) -> T) -> [T] {
         return Swift.map(self, transform)
     }
