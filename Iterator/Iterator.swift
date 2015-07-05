@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 to4iki. All rights reserved.
 //
 
-public protocol Iteratable {
+public protocol Iterable {
     
     typealias Element
     
@@ -17,7 +17,7 @@ public protocol Iteratable {
 /**
 *  Mutable Data structures that allow to iterate over a sequence of elements.
 */
-public struct Iterator<T: SequenceType>: Iteratable {
+public struct Iterator<T: SequenceType>: Iterable {
     
     private let sequence: T
     private lazy var generate: T.Generator = self.sequence.generate()

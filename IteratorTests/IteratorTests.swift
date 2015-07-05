@@ -30,6 +30,16 @@ class IteratorTests: XCTestCase {
         XCTAssertFalse(it.hasNext)
     }
     
+    func testNext() {
+        var count = 0
+        while it.hasNext {
+            count++
+            it.next()
+        }
+        XCTAssert(count == 3)
+        XCTAssert(it.size() == 0)
+    }
+    
     func testIsEmpty() {
         it.next()
         it.next()
